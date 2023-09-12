@@ -1,13 +1,46 @@
-/* Your Code Here */
+function createEmployeeRecord(employee) {
+    let empInfo = {
+        firstName: employee[0],
+        familyName: employee[1],
+        title: employee[2],
+        payPerHour: employee[3],
+        timeInEvents: [],
+        timeOutEvents: []
+    }
+    return empInfo
+}
 
-/*
- We're giving you this function. Take a look at it, you might see some usage
- that's new and different. That's because we're avoiding a well-known, but
- sneaky bug that we'll cover in the next few lessons!
+function createEmployeeRecords(employees) {
+    return employees.map(employee => createEmployeeRecord(employee))
+}
 
- As a result, the lessons for this function will pass *and* it will be available
- for you to use if you need it!
- */
+function createTimeInEvent(timeIn) {
+    const [date, hour] = timeIn.split(' ');
+    this.timeInEvents.push({
+        type: "TimeIn",
+        hour: parseInt(hour, 10),
+        date: date
+    })
+    return this
+}
+
+function createTimeOutEvent(timeOut) {
+    const [date, hour] = timeOut.split(' ');
+    this.timeOutEvents.push({
+        type: "TimeOut",
+        hour: parseInt(hour, 10),
+        date: date
+    })
+    return this
+}
+
+function hoursWorkedOnDate(date) {
+    return ((this.timeOutEvents.find(e => e.date === date)).hour - (this.timeInEvents.find(e => e.date === date)).hour)/100
+}
+
+function wagesEarnedOnDate(date) {
+    return hoursWorkedOnDate.call(this, date) * this.payPerHour
+}
 
 const allWagesFor = function () {
     const eligibleDates = this.timeInEvents.map(function (e) {
@@ -19,5 +52,13 @@ const allWagesFor = function () {
     }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
 
     return payable
+}
+
+function findEmployeeByFirstName(array, employee) {
+    return array.find(emp => emp.firstName === employee)
+}
+
+function calculatePayroll(array) {
+    return array.reduce((total, employee) => total + allWagesFor.call(employee), 0)
 }
 
